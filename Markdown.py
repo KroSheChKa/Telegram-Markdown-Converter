@@ -8,7 +8,9 @@ mrkd_tps = {
     'strikethrough': '~',
     'code': '`',
     'spoiler': '||',
-    'pre': '```'
+    'pre': '```',
+    'bot_command': '',
+    'hashtag': ''
 }
 special = ['blockquote', 'mention', 'text_link', ('expandable_blockquote', ['**>', '||'])]
 stupid = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
@@ -25,11 +27,14 @@ def info(msg):
 
     if 'entities' in msg.json:
         markdowned = parse_dat_bih(markdowned, msg.json['entities'])
-        #print(msg.json['entities'])
+    else:
+        for i in stupid:
+            markdowned = markdowned.replace(i, '\\'+i)
+        markdowned = markdowned.replace('\n', '\\n')
 
     bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True)
     #bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True, parse_mode='MarkdownV2')
-    #bot.send_message(msg.chat.id, "", disable_web_page_preview=True, parse_mode='MarkdownV2')
+    #bot.send_message(msg.chat.id, "*Июльский дайджест лучших публикаций MyReviews*\n\nВ июле мы выпустили дизайн\-редактор 2\.0, чтобы сделать кастомизацию виджетов доступной для пользователей на всех тарифах\.\n\nПодборка материалов о новом редакторе:\n\n🔸 Р[ассказали, почему мы решили разработать редактор виджетов\n](https://vc.ru/services/1310440-my-obnovili-redaktor-vidzhetov-nadoelo-slushat-chto-u-konkurentov-luchshe)\n🔸 Во[плотили идеи Chat\-GPT в дизайне\n\n](https://myreviews.ru/instructions/widgets-design)🔸 Опу[бликовали самый полный обзор редактора и идеи стилизации виджетов на Timeweb Community\n\n⭐️](https://timeweb.com/ru/community/)️ Мы *часто пишем о важности отзывов, поэтому нам будет очень приятно получить обратную связь о том, как MyReviews помогает вашему бизнесу\n  *\n👉 Star[tpack\n👉 Г](https://startpack.ru/add-review/myreviews)еосе[рвисы и карты](https://myreviews.dev/firm/69f23622-f471-4d7a-906e-380d7113fe48/preview?from=short-link&url=https://myreviews.ru)", disable_web_page_preview=True, parse_mode='MarkdownV2')
 
 def parse_dat_bih(text, ent):
     places = place(ent)
@@ -49,23 +54,25 @@ def place(ent):
 
 def dots(text, places):
     text = [i for i in text]
+    print(text,'AAAAAAAAA')
     to_add = 0
     for i in places:
         text.insert(i+to_add, '•')
         to_add += 1
-    print(text)
+    print(text,'AAAAAAAAA')
     return text
 
 def symbols_to_paste(ent, text):
-    s = ['']*(len(text)+1)
+    s = ['']*(len(text)+25)
     for i in ent:
+        print(i)
         if i['type'] == 'text_link':
             s[i['offset']] += '['
             s[i['length'] + i['offset']] += '](' + i['url'] + ')'
             continue
-        print(i)
-        s[i['offset']] += mrkd_tps[i['type']]
-        s[i['length'] + i['offset']] = mrkd_tps[i['type']] + s[i['length'] + i['offset']]
+        else:
+            s[i['offset']] += mrkd_tps[i['type']]
+            s[i['length'] + i['offset']] = mrkd_tps[i['type']] + s[i['length'] + i['offset']]
     s = [j for j in s if j]
     print(s,'1')
     flag = 0
@@ -89,6 +96,7 @@ def combine(splitted_dots, symbols):
     for i in symbols:
         splitted_dots = splitted_dots.replace('•', i, 1)
     print(splitted_dots)
+    splitted_dots = splitted_dots.replace('•', '')
     splitted_dots = splitted_dots.replace('\n', '\\n')
     return splitted_dots
 
