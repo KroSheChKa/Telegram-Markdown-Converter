@@ -17,7 +17,7 @@ bot = t.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
 def welcome(msg):
-    bot.send_message(msg.chat.id, 'Напишит свой текст сюда:')
+    bot.send_message(msg.chat.id, 'Write sum')
 
 @bot.message_handler()
 def info(msg):
@@ -28,8 +28,8 @@ def info(msg):
         #print(msg.json['entities'])
 
     bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True)
-    bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True, parse_mode='MarkdownV2')
-    #bot.send_message(msg.chat.id, 'hello', disable_web_page_preview=True, parse_mode='MarkdownV2')
+    #bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True, parse_mode='MarkdownV2')
+    #bot.send_message(msg.chat.id, "", disable_web_page_preview=True, parse_mode='MarkdownV2')
 
 def parse_dat_bih(text, ent):
     places = place(ent)
@@ -89,6 +89,7 @@ def combine(splitted_dots, symbols):
     for i in symbols:
         splitted_dots = splitted_dots.replace('•', i, 1)
     print(splitted_dots)
+    splitted_dots = splitted_dots.replace('\n', '\\n')
     return splitted_dots
 
 
