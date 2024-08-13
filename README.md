@@ -13,4 +13,5 @@ Output: \*I am bold\*
 
 Implemented example:
 
-![image](https://github.com/user-attachments/assets/ec6cefa3-f91e-4a5c-98fc-342298051188)
+![image](https://github.com/user-attachments/assets/24909e59-970d-4659-ab4f-dd995eb51b12)
+
