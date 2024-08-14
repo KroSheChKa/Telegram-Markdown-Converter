@@ -1,5 +1,6 @@
 import telebot as t
 from TG_token import TOKEN
+from alts import alt_symbs
 
 mrkd_tps = {
     'bold': '*',
@@ -34,14 +35,44 @@ def info(msg):
 
     bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True)
     #bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True, parse_mode='MarkdownV2')
-    #bot.send_message(msg.chat.id, "*Июльский дайджест лучших публикаций MyReviews*\n\nВ июле мы выпустили дизайн\-редактор 2\.0, чтобы сделать кастомизацию виджетов доступной для пользователей на всех тарифах\.\n\nПодборка материалов о новом редакторе:\n\n🔸 Р[ассказали, почему мы решили разработать редактор виджетов\n](https://vc.ru/services/1310440-my-obnovili-redaktor-vidzhetov-nadoelo-slushat-chto-u-konkurentov-luchshe)\n🔸 Во[плотили идеи Chat\-GPT в дизайне\n\n](https://myreviews.ru/instructions/widgets-design)🔸 Опу[бликовали самый полный обзор редактора и идеи стилизации виджетов на Timeweb Community\n\n⭐️](https://timeweb.com/ru/community/)️ Мы *часто пишем о важности отзывов, поэтому нам будет очень приятно получить обратную связь о том, как MyReviews помогает вашему бизнесу\n  *\n👉 Star[tpack\n👉 Г](https://startpack.ru/add-review/myreviews)еосе[рвисы и карты](https://myreviews.dev/firm/69f23622-f471-4d7a-906e-380d7113fe48/preview?from=short-link&url=https://myreviews.ru)", disable_web_page_preview=True, parse_mode='MarkdownV2')
+    #bot.send_message(msg.chat.id, "👍 Новый отзыв на [Google](https://www.google.com/maps/place/Timeweb/@59.8888864,30.3263183,17z/data=!4m7!3m6!1s0x4696306cb3b0a325:0x3359a8d8add6587e!8m2!3d59.8888998!4d30.3295799!9m1!1b1)\n🏢 Организация: Example2\n👤 Пользователь: golova\n⭐️ Оценка: 5\n📝 Сообщение: Более полутора лет пользуюсь услугами TimeWeb и полностью удовлетворен\. Хостинг зарекомендовал себя как надежный, а техническая поддержка всегда оперативно решает все возникающие вопросы\. Особо стоит отметить бесплатный 10\-дневный период Free Web, который идеально подходит для тестирования сайта\. Панель управления удобная и интуитивно понятная, а цены приемлемые, с множеством тарифных планов на выбор\. Рекомендую TimeWeb всем, кто ищет качественный и надежный хостинг\.\n📅 Дата: 29\.07\.2024", disable_web_page_preview=True, parse_mode='MarkdownV2')
 
 def parse_dat_bih(text, ent):
+    text, deka = no_emojis(text)
     places = place(ent)
     splitted_dots = dots(text, places)
     symbols = symbols_to_paste(ent, text)
     text = combine(splitted_dots, symbols)
+    text = return_emojis(text, deka)
     return text
+
+def return_emojis(text, deka):
+    for i in deka:
+        if i == '\u200d':
+            text = text.replace('■', i, 1)
+        else:
+            text = text.replace('¤¤', i, 1)
+    return text
+
+def no_emojis(text):
+    print(text)
+    deka = []
+    step = 0
+    last_symb = text[-1]
+    while text[step] != last_symb:
+        print(text[step],text[step] not in alt_symbs, len(text[step]))
+        if text[step] == '\u200d':
+            text = text[:step]+'■'+text[step+1:]
+            step += 1
+            deka.append('\u200d')
+            continue
+
+        if text[step] not in alt_symbs:
+            deka.append(text[step])
+            text = text[:step]+'¤¤'+text[step+1:]
+        step += 1
+    print(text, "".join(deka))
+    return text, deka
 
 def place(ent):
     s = set()
