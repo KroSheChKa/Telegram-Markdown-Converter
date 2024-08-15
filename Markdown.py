@@ -1,6 +1,6 @@
 import telebot as t
 from TG_token import TOKEN
-from alts import alt_symbs
+from alt import alt_symbs
 
 mrkd_tps = {
     'bold': '*',
@@ -12,7 +12,7 @@ mrkd_tps = {
     'pre': '```',
     'bot_command': '',
     'hashtag': '',
-    'mention': '**',
+    'mention': '️',
     'bot_command': '**'
 
 }
@@ -38,7 +38,7 @@ def info(msg):
 
     bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True)
     #bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True, parse_mode='MarkdownV2')
-    bot.send_message(msg.chat.id, "**/notify** 🧑🏿‍✈👨🏿‍🏭🥺\n**/delete** *__**_~fsdfs~_**__*", disable_web_page_preview=True, parse_mode='MarkdownV2')
+    #bot.send_message(msg.chat.id, "❌ *@ay\_foo*️*, вы успешно подключили бота Myreviews к этому чату, он будет сообщать вам об отзывах по вашим компаниям: все\!*", disable_web_page_preview=True, parse_mode='MarkdownV2')
 
 def parse_dat_bih(text, ent):
     text, deka = no_emojis(text)
