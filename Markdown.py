@@ -11,7 +11,10 @@ mrkd_tps = {
     'spoiler': '||',
     'pre': '```',
     'bot_command': '',
-    'hashtag': ''
+    'hashtag': '',
+    'mention': '**',
+    'bot_command': '**'
+
 }
 special = ['blockquote', 'mention', 'text_link', ('expandable_blockquote', ['**>', '||'])]
 stupid = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
@@ -35,7 +38,7 @@ def info(msg):
 
     bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True)
     #bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True, parse_mode='MarkdownV2')
-    #bot.send_message(msg.chat.id, "*Отчет по новым отзывам за неделю* для Example1\n\(22\.07 \- 29\.07\)\n\n📊 Средний *рейтинг* 4\.69 \(⬆️0\.090000000000001\)\n📅 За неделю у вас 13 новых отзывов:\n⭐️⭐️⭐️⭐️⭐️ \- 9 отзывов\n⭐️⭐️⭐️⭐️ \- 0 отзывов\n⭐️⭐️⭐️ \- 0 отзывов\n⭐️⭐️ \- 0 отзывов\n⭐️ \- 1 отзыв\n\nПерехвачено 3 ~негативных~ отзыва\.\n\n🧲 Полная аналитика по площадкам в [__личном кабинете__](https://myreviews.dev/firm/10942/view?avrService=1&firstService=1&from=22.07.2024&percent=false&period=1&secondService=null&to=29.07.2024)", disable_web_page_preview=True, parse_mode='MarkdownV2')
+    bot.send_message(msg.chat.id, "**/notify** 🧑🏿‍✈👨🏿‍🏭🥺\n**/delete** *__**_~fsdfs~_**__*", disable_web_page_preview=True, parse_mode='MarkdownV2')
 
 def parse_dat_bih(text, ent):
     text, deka = no_emojis(text)
