@@ -35,7 +35,7 @@ def info(msg):
 
     bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True)
     #bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True, parse_mode='MarkdownV2')
-    #bot.send_message(msg.chat.id, "👍 Новый отзыв на [Google](https://www.google.com/maps/place/Timeweb/@59.8888864,30.3263183,17z/data=!4m7!3m6!1s0x4696306cb3b0a325:0x3359a8d8add6587e!8m2!3d59.8888998!4d30.3295799!9m1!1b1)\n🏢 Организация: Example2\n👤 Пользователь: golova\n⭐️ Оценка: 5\n📝 Сообщение: Более полутора лет пользуюсь услугами TimeWeb и полностью удовлетворен\. Хостинг зарекомендовал себя как надежный, а техническая поддержка всегда оперативно решает все возникающие вопросы\. Особо стоит отметить бесплатный 10\-дневный период Free Web, который идеально подходит для тестирования сайта\. Панель управления удобная и интуитивно понятная, а цены приемлемые, с множеством тарифных планов на выбор\. Рекомендую TimeWeb всем, кто ищет качественный и надежный хостинг\.\n📅 Дата: 29\.07\.2024", disable_web_page_preview=True, parse_mode='MarkdownV2')
+    #bot.send_message(msg.chat.id, "*Отчет по новым отзывам за неделю* для Example1\n\(22\.07 \- 29\.07\)\n\n📊 Средний *рейтинг* 4\.69 \(⬆️0\.090000000000001\)\n📅 За неделю у вас 13 новых отзывов:\n⭐️⭐️⭐️⭐️⭐️ \- 9 отзывов\n⭐️⭐️⭐️⭐️ \- 0 отзывов\n⭐️⭐️⭐️ \- 0 отзывов\n⭐️⭐️ \- 0 отзывов\n⭐️ \- 1 отзыв\n\nПерехвачено 3 ~негативных~ отзыва\.\n\n🧲 Полная аналитика по площадкам в [__личном кабинете__](https://myreviews.dev/firm/10942/view?avrService=1&firstService=1&from=22.07.2024&percent=false&period=1&secondService=null&to=29.07.2024)", disable_web_page_preview=True, parse_mode='MarkdownV2')
 
 def parse_dat_bih(text, ent):
     text, deka = no_emojis(text)
@@ -58,20 +58,21 @@ def no_emojis(text):
     print(text)
     deka = []
     step = 0
-    last_symb = text[-1]
-    while text[step] != last_symb:
+
+    while step != len(text):
         print(text[step],text[step] not in alt_symbs, len(text[step]))
         if text[step] == '\u200d':
             text = text[:step]+'■'+text[step+1:]
-            step += 1
             deka.append('\u200d')
             continue
 
         if text[step] not in alt_symbs:
             deka.append(text[step])
             text = text[:step]+'¤¤'+text[step+1:]
+            print('DJKSAJDLAHS'*50)
         step += 1
-    print(text, "".join(deka))
+
+    print(text, "".join(deka), deka,'-------------------')
     return text, deka
 
 def place(ent):
@@ -80,26 +81,35 @@ def place(ent):
         s.add(i['offset'])
         s.add(i['offset']+i['length'])
     s = sorted(list(s))
-    print(s)
+    print(s,'here 1')
     return s
 
 def dots(text, places):
     text = [i for i in text]
-    print(text,'AAAAAAAAA')
+    print(text,'до до AAAAAAAAA')
+
+    while '️' in text:
+        text.remove('️')
+    print(text,'до AAAAAAAAA')
     to_add = 0
     for i in places:
         text.insert(i+to_add, '•')
         to_add += 1
-    print(text,'AAAAAAAAA')
+    print(text,'после AAAAAAAAA')
     return text
 
 def symbols_to_paste(ent, text):
-    s = ['']*(len(text)+25)
+    s = ['']*(len(text)+50)
+
     for i in ent:
         print(i)
         if i['type'] == 'text_link':
             s[i['offset']] += '['
             s[i['length'] + i['offset']] += '](' + i['url'] + ')'
+            continue
+        elif i['type'] == 'url':
+            continue
+        elif i['type'] == 'phone_number':
             continue
         else:
             s[i['offset']] += mrkd_tps[i['type']]
