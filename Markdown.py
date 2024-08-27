@@ -2,6 +2,7 @@ import telebot as t
 from TG_token import TOKEN
 from alt import alt_symbs
 
+
 mrkd_tps = {
     'bold': '*',
     'italic': '_',
@@ -38,7 +39,7 @@ def info(msg):
 
     bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True)
     #bot.send_message(msg.chat.id, f'{markdowned}', disable_web_page_preview=True, parse_mode='MarkdownV2')
-    #bot.send_message(msg.chat.id, "❌ *@ay\_foo*️*, вы успешно подключили бота Myreviews к этому чату, он будет сообщать вам об отзывах по вашим компаниям: все\!*", disable_web_page_preview=True, parse_mode='MarkdownV2')
+    #bot.send_message(msg.chat.id, "🧑‍💻 Сейчас поддержка *__работает__*\! 👩‍💻", disable_web_page_preview=True, parse_mode='MarkdownV2')
 
 def parse_dat_bih(text, ent):
     text, deka = no_emojis(text)
@@ -72,7 +73,7 @@ def no_emojis(text):
         if text[step] not in alt_symbs:
             deka.append(text[step])
             text = text[:step]+'¤¤'+text[step+1:]
-            print('DJKSAJDLAHS'*50)
+            #print('DJKSAJDLAHS'*50)
         step += 1
 
     print(text, "".join(deka), deka,'-------------------')
