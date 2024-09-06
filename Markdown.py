@@ -1,6 +1,6 @@
 import telebot as t
 from TG_token import TOKEN
-from alt import alt_symbs
+from alts import alt_symbs
 
 
 mrkd_tps = {
@@ -13,10 +13,10 @@ mrkd_tps = {
     'pre': '```',
     'bot_command': '',
     'hashtag': '',
-    'mention': '️',
-    'bot_command': '**'
-
+    'mention': '**',#'️',
+    'bot_command': '️'
 }
+
 special = ['blockquote', 'mention', 'text_link', ('expandable_blockquote', ['**>', '||'])]
 stupid = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
 
@@ -69,7 +69,10 @@ def no_emojis(text):
             text = text[:step]+'■'+text[step+1:]
             deka.append('\u200d')
             continue
-
+        elif text[step] == '\xa0':
+            text = text[:step]+' '+text[step+1:]
+            deka.append('\xa0')
+            continue 
         if text[step] not in alt_symbs:
             deka.append(text[step])
             text = text[:step]+'¤¤'+text[step+1:]
@@ -106,7 +109,7 @@ def symbols_to_paste(ent, text):
     s = ['']*(len(text)+50)
 
     for i in ent:
-        print(i)
+        print(i, 'wooooow')
         if i['type'] == 'text_link':
             s[i['offset']] += '['
             s[i['length'] + i['offset']] += '](' + i['url'] + ')'
